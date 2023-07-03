@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraBoom : MonoBehaviour
 {
     [SerializeField]
-    private ThirdPersonCamera cam;
+    private ThirdPersonCamera controller;
 
     [SerializeField]
     private float springLength = 10f;
@@ -11,12 +11,12 @@ public class CameraBoom : MonoBehaviour
 
     void Start()
     {
-        transform.position = transform.parent.position + cam.dir * springLength;
+        transform.position = transform.parent.position + controller.dir * springLength;
     }
 
     void Update()
     {
-        Boom(cam.dir);
+        Boom(controller.dir);
         LookAtParent();
     }
 

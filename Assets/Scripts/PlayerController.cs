@@ -4,6 +4,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody rb;
+    [SerializeField]
+    private CameraController cameraController;
 
 
     [SerializeField]
@@ -32,8 +34,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown(jumpButton))
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        Vector3 movementDir = Vector3.right * Input.GetAxis(horizontalAxis) +
-            Vector3.forward * Input.GetAxis(verticalAxis);
+        Vector3 movementDir = cameraController.cameraRight * Input.GetAxis(horizontalAxis) +
+            cameraController.cameraForward * Input.GetAxis(verticalAxis);
         rb.velocity = movementDir * maxMovementSpeed;
     }
 

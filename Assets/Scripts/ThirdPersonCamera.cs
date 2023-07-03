@@ -15,8 +15,8 @@ public class ThirdPersonCamera : CameraController
     {
         base.Update();
 
-        float xaxis = Mathf.Cos(yaw);
-        float zaxis = Mathf.Sin(yaw);
+        float xaxis = Mathf.Sin(yaw);
+        float zaxis = Mathf.Cos(yaw);
         float yaxis = pitch;
 
         float x = xaxis * Mathf.Cos(yaxis);

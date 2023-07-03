@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1795560585504343505}
+  cameraController: {fileID: 348602643330060885}
   horizontalAxis: Horizontal
   verticalAxis: Vertical
   jumpButton: Jump
@@ -409,6 +410,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbef9daf45e0d3444ae64562c2563c1a, type: 3}
+--- !u!114 &348602643330060885 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3244057741932513248, guid: dbef9daf45e0d3444ae64562c2563c1a, type: 3}
+  m_PrefabInstance: {fileID: 3013832933569795509}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f7b1930d7d4b24f8def419304b82b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8952526060064879273 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6192038344060643100, guid: dbef9daf45e0d3444ae64562c2563c1a, type: 3}
