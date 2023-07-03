@@ -19,7 +19,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private float yaw = 0f; // y axis rotation
 
     [HideInInspector]
-    public Vector3 dir = Vector3.forward;
+    public Vector3 dir = Vector3.back;
 
 
     void Start()

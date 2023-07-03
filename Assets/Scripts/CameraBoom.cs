@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[ExecuteAlways]
 public class CameraBoom : MonoBehaviour
 {
     [SerializeField]
@@ -17,12 +16,31 @@ public class CameraBoom : MonoBehaviour
 
     void Update()
     {
-        RaycastHit hit;
-        float d = Physics.Raycast(transform.parent.position, cam.dir, out hit, springLength) ? hit.distance : springLength;
-        transform.position = transform.parent.position + cam.dir * d;
-        Debug.DrawRay(transform.parent.position, cam.dir * d, Color.red);
+        Boom(cam.dir);
+        LookAtParent();
+    }
 
+    private void Boom(Vector3 dir)
+    {
+        RaycastHit hit;
+        float d = Physics.Raycast(transform.parent.position, dir, out hit, springLength) ? hit.distance : springLength;
+        transform.position = transform.parent.position + dir * d;
+        Debug.DrawRay(transform.parent.position, dir * d, Color.red);
+    }
+
+    private void LookAtParent()
+    {
         Quaternion lookat = Quaternion.LookRotation(transform.parent.position - transform.position);
         transform.rotation = lookat;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Boom(Vector3.back);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.parent.position);
+        Gizmos.color = Color.white;
+
+        LookAtParent();
     }
 }
