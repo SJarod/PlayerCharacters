@@ -1,37 +1,19 @@
 using UnityEngine;
 
-public class ThirdPersonCamera : MonoBehaviour
+public class ThirdPersonCamera : CameraController
 {
-    [SerializeField]
-    private string horizontalAxis = "CameraHorizontal";
-    [SerializeField]
-    private string verticalAxis = "CameraVertical";
-
-    [SerializeField]
-    private float sensitivityX = 1f;
-    [SerializeField]
-    private float sensitivityY = 1f;
-
-    [SerializeField]
-    private Vector2 pitchRange = new Vector2(-45f, 89f);
-
-    private float pitch = 0f; // x axis rotation
-    private float yaw = 0f; // y axis rotation
-
     [HideInInspector]
     public Vector3 dir = Vector3.back;
 
 
-    void Start()
+    protected override void Start()
     {
 
     }
 
-    void Update()
+    protected override void Update()
     {
-        pitch += Input.GetAxis(verticalAxis) * sensitivityY;
-        pitch = Mathf.Clamp(pitch, pitchRange.x * Mathf.Deg2Rad, pitchRange.y * Mathf.Deg2Rad);
-        yaw += Input.GetAxis(horizontalAxis) * sensitivityX;
+        base.Update();
 
         float xaxis = Mathf.Cos(yaw);
         float zaxis = Mathf.Sin(yaw);

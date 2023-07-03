@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FirstPersonCamera : MonoBehaviour
+public class FirstPersonCamera : CameraController
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        
+        base.Update();
+        transform.rotation = Quaternion.Euler(-pitch * Mathf.Rad2Deg, yaw * Mathf.Rad2Deg, 0f);
     }
 }
