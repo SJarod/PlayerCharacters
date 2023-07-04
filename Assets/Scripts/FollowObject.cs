@@ -28,8 +28,7 @@ public class FollowObject : MonoBehaviour
     private void Follow(float dt)
     {
         Vector3 p = target.transform.position;
-        transform.position = Vector3.Lerp(transform.position,
-            new Vector3(p.x, verticalFollow ? p.y : transform.position.y, p.z),
-            smoothness * dt);
+        Vector3 t = new Vector3(p.x, verticalFollow ? p.y : transform.position.y, p.z);
+        transform.position = Vector3.Lerp(transform.position, t, smoothness <= 0f ? 1f : smoothness * dt);
     }
 }

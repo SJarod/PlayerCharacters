@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool rotateTowardsMovement = true;
     [SerializeField]
+    private bool rotateTowardsCamera = false;
+    [SerializeField]
     private float rotationSpeed = 20f;
 
     [SerializeField]
@@ -103,5 +105,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation,
                 Quaternion.LookRotation(inputVelocity),
                 rotationSpeed * Time.deltaTime);
+        else if (rotateTowardsCamera)
+            transform.rotation = Quaternion.LookRotation(cameraController.cameraForward);
     }
 }
