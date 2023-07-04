@@ -25,6 +25,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpForce = 5f;
 
+    [SerializeField]
+    private bool rotateTowardsMovement = true;
+    [SerializeField]
+    private float rotationSpeed = 20f;
+
     private Vector3 inputVelocity;
     private bool bIsGrounded = false;
 
@@ -69,6 +74,13 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 movementDir = cameraController.cameraRight * Input.GetAxis(horizontalAxis) +
             cameraController.cameraForward * Input.GetAxis(verticalAxis);
-        inputVelocity = movementDir * maxMovementSpeed;
+
+        if (bIsGrounded)
+            inputVelocity = movementDir * maxMovementSpeed;
+
+        if (rotateTowardsMovement && movementDir.sqrMagnitude > 0f)
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.LookRotation(movementDir),
+                rotationSpeed * Time.deltaTime);
     }
 }
