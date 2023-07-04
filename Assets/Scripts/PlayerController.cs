@@ -1,11 +1,11 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
-    private Collider playerCollider;
+    private CapsuleCollider playerCollider;
     [SerializeField]
     private CameraController cameraController;
 
@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 20f;
 
+    [SerializeField]
+    private float groundCheckDistance = 0.5f;
+
     private Vector3 inputVelocity;
     private bool bIsGrounded = false;
 
@@ -37,7 +40,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        playerCollider = GetComponent<Collider>();
+        playerCollider = GetComponent<CapsuleCollider>();
     }
 
     void Update()
@@ -50,12 +53,18 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector3(inputVelocity.x, rb.velocity.y, inputVelocity.z);
+        if (bIsGrounded)
+            rb.velocity = new Vector3(inputVelocity.x, rb.velocity.y, inputVelocity.z);
     }
 
     private void CheckIsGrounded()
     {
-        bIsGrounded = true;
+        CapsuleCollider cap = playerCollider;
+        Vector3 dir = cap.transform.rotation * Vector3.up;
+        Vector3 start = transform.position + cap.center + dir * (cap.height * 0.5f - cap.radius);
+        Vector3 end = transform.position + cap.center - dir * (cap.height * 0.49f - cap.radius);
+        RaycastHit hit;
+        bIsGrounded = Physics.CapsuleCast(start, end, cap.radius, Vector3.down, out hit, groundCheckDistance);
     }
 
     private void JumpHandle()
@@ -75,8 +84,7 @@ public class PlayerController : MonoBehaviour
         Vector3 movementDir = cameraController.cameraRight * Input.GetAxis(horizontalAxis) +
             cameraController.cameraForward * Input.GetAxis(verticalAxis);
 
-        if (bIsGrounded)
-            inputVelocity = movementDir * maxMovementSpeed;
+        inputVelocity = movementDir * maxMovementSpeed;
 
         if (rotateTowardsMovement && movementDir.sqrMagnitude > 0f)
             transform.rotation = Quaternion.Slerp(transform.rotation,
