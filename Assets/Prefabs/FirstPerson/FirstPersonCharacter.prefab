@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1795560585504343505}
-  cameraController: {fileID: 429964290322703901}
+  cameraController: {fileID: 7359315985880172646}
   horizontalAxis: Horizontal
   verticalAxis: Vertical
   jumpButton: Jump
@@ -306,7 +306,7 @@ Transform:
   - {fileID: 5213156679087072619}
   - {fileID: 8395424799496073264}
   - {fileID: 7750873230963536279}
-  - {fileID: 9077864192297076609}
+  - {fileID: 2174409284583909882}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -337,7 +337,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!1001 &2888363667379593373
+--- !u!1001 &5459356330650914534
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -345,6 +345,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3643504375296405352}
     m_Modifications:
+    - target: {fileID: 3306219704003561088, guid: e50b0558bb967f542b4ddf3f1187f7a2, type: 3}
+      propertyPath: invertY
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6192038344060643100, guid: e50b0558bb967f542b4ddf3f1187f7a2, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -398,10 +402,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e50b0558bb967f542b4ddf3f1187f7a2, type: 3}
---- !u!114 &429964290322703901 stripped
+--- !u!4 &2174409284583909882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6192038344060643100, guid: e50b0558bb967f542b4ddf3f1187f7a2, type: 3}
+  m_PrefabInstance: {fileID: 5459356330650914534}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7359315985880172646 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3306219704003561088, guid: e50b0558bb967f542b4ddf3f1187f7a2, type: 3}
-  m_PrefabInstance: {fileID: 2888363667379593373}
+  m_PrefabInstance: {fileID: 5459356330650914534}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -409,8 +418,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b89613508196e94caec0fdfd4f68bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &9077864192297076609 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6192038344060643100, guid: e50b0558bb967f542b4ddf3f1187f7a2, type: 3}
-  m_PrefabInstance: {fileID: 2888363667379593373}
-  m_PrefabAsset: {fileID: 0}

@@ -139,12 +139,14 @@ MonoBehaviour:
   cam: {fileID: 1623281017165692264}
   horizontalAxis: Mouse X
   verticalAxis: Mouse Y
-  sensitivityX: 1
-  sensitivityY: 1
+  sensitivityX: 0.1
+  sensitivityY: 0.1
+  invertY: 0
+  smoothnessSpeed: 5
   pitchRange: {x: -45, y: 89}
   cameraForward: {x: 0, y: 0, z: 1}
   cameraRight: {x: 1, y: 0, z: 0}
-  dir: {x: 0, y: 0, z: 1}
+  dir: {x: 0, y: 0, z: -1}
 --- !u!1 &6738352043543247853
 GameObject:
   m_ObjectHideFlags: 0

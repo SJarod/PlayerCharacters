@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpForce = 5f;
 
+    private Vector3 inputVelocity;
+
 
     void Start()
     {
@@ -32,15 +34,15 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown(jumpButton))
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce, useRigidbodyMass ? ForceMode.Impulse : ForceMode.VelocityChange);
 
         Vector3 movementDir = cameraController.cameraRight * Input.GetAxis(horizontalAxis) +
             cameraController.cameraForward * Input.GetAxis(verticalAxis);
-        rb.velocity = movementDir * maxMovementSpeed;
+        inputVelocity = movementDir * maxMovementSpeed;
     }
 
     private void FixedUpdate()
     {
-        
+        rb.velocity = new Vector3(inputVelocity.x, rb.velocity.y, inputVelocity.z);
     }
 }
