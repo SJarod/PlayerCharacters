@@ -44,13 +44,12 @@ public class CameraController : MonoBehaviour
         Vector2 v = new Vector2(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis));
 
         actualPitch += v.y * sensitivityY * (invertY ? 1f : -1f);
+        actualPitch = Mathf.Clamp(actualPitch, pitchRange.x * Mathf.Deg2Rad, pitchRange.y * Mathf.Deg2Rad);
         actualYaw += v.x * sensitivityX;
 
         float s = smoothnessSpeed != 0f ? smoothnessSpeed * Time.deltaTime : 1f;
 
         pitch = Mathf.Lerp(pitch, actualPitch, s);
-        pitch = Mathf.Clamp(pitch, pitchRange.x * Mathf.Deg2Rad, pitchRange.y * Mathf.Deg2Rad);
-
         yaw = Mathf.Lerp(yaw, actualYaw, s);
 
 
