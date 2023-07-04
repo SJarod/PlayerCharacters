@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float acceleration = 30f;
     [SerializeField]
-    private float decay = 30f;
+    private float decay = 3f;
     [SerializeField]
     private float jumpForce = 5f;
 
