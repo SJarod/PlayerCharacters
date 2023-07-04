@@ -191,7 +191,7 @@ MonoBehaviour:
   jumpForce: 5
   rotateTowardsMovement: 1
   rotateTowardsCamera: 0
-  rotationSpeed: 20
+  rotationSpeed: 0.1
   groundCheckDistance: 0.5
   airDragCoefficient: 0.3
 --- !u!1 &3754717532947985339

@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool rotateTowardsCamera = false;
     [SerializeField]
-    private float rotationSpeed = 20f;
+    private float rotationSpeed = 0.1f;
 
     [SerializeField]
     private float groundCheckDistance = 0.5f;
@@ -95,6 +95,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private float rVelocity = 0f;
+
     private void HorizontalMovementHandle()
     {
         inputVelocity = cameraController.cameraRight * Input.GetAxisRaw(horizontalAxis) +
@@ -102,10 +104,16 @@ public class PlayerController : MonoBehaviour
         inputVelocity.Normalize();
 
         if (rotateTowardsMovement && inputVelocity.sqrMagnitude > 0f)
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.LookRotation(inputVelocity),
-                rotationSpeed * Time.deltaTime);
+        {
+            float r = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.y,
+                Quaternion.LookRotation(inputVelocity).eulerAngles.y,
+                ref rVelocity,
+                rotationSpeed);
+            transform.rotation = Quaternion.Euler(0f, r, 0f);
+        }
         else if (rotateTowardsCamera)
+        {
             transform.rotation = Quaternion.LookRotation(cameraController.cameraForward);
+        }
     }
 }
