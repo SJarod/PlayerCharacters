@@ -452,6 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1517760609591896697}
   verticalFollow: 0
+  useInFixedUpdate: 1
   smoothness: 5
 --- !u!4 &4176429661197582323 stripped
 Transform:
