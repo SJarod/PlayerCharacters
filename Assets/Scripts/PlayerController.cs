@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float maxMovementSpeed = 5f;
     [SerializeField]
+    private float acceleration = 30f;
+    [SerializeField]
+    private float decay = 30f;
+    [SerializeField]
     private float jumpForce = 5f;
 
     [SerializeField]
@@ -32,6 +36,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float groundCheckDistance = 0.5f;
+
+    [SerializeField]
+    private float airDragCoefficient = 0.3f;
 
     private Vector3 inputVelocity;
     private bool bIsGrounded = false;
@@ -53,8 +60,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (bIsGrounded)
-            rb.velocity = new Vector3(inputVelocity.x, rb.velocity.y, inputVelocity.z);
+        float drag = bIsGrounded ? 1f : airDragCoefficient;
+        float yVelocity = rb.velocity.y;
+
+        if (inputVelocity.sqrMagnitude > 0f)
+            rb.velocity += inputVelocity * acceleration * drag * Time.fixedDeltaTime;
+        else
+            rb.velocity -= rb.velocity * decay * drag * Time.fixedDeltaTime;
+        rb.velocity = Vector3.ClampMagnitude(new Vector3(rb.velocity.x, 0f, rb.velocity.z), maxMovementSpeed);
+        rb.velocity = new Vector3(rb.velocity.x, yVelocity, rb.velocity.z);
     }
 
     private void CheckIsGrounded()
@@ -81,14 +95,13 @@ public class PlayerController : MonoBehaviour
 
     private void HorizontalMovementHandle()
     {
-        Vector3 movementDir = cameraController.cameraRight * Input.GetAxis(horizontalAxis) +
-            cameraController.cameraForward * Input.GetAxis(verticalAxis);
+        inputVelocity = cameraController.cameraRight * Input.GetAxisRaw(horizontalAxis) +
+            cameraController.cameraForward * Input.GetAxisRaw(verticalAxis);
+        inputVelocity.Normalize();
 
-        inputVelocity = movementDir * maxMovementSpeed;
-
-        if (rotateTowardsMovement && movementDir.sqrMagnitude > 0f)
+        if (rotateTowardsMovement && inputVelocity.sqrMagnitude > 0f)
             transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.LookRotation(movementDir),
+                Quaternion.LookRotation(inputVelocity),
                 rotationSpeed * Time.deltaTime);
     }
 }
