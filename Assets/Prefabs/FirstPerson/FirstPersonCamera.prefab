@@ -133,8 +133,8 @@ MonoBehaviour:
   verticalAxis: Mouse Y
   sensitivityX: 0.1
   sensitivityY: 0.1
-  invertY: 0
-  smoothnessSpeed: 5
+  invertY: 1
+  smoothness: 0
   pitchRange: {x: -89, y: 89}
   cameraForward: {x: 0, y: 0, z: 1}
   cameraRight: {x: 1, y: 0, z: 0}

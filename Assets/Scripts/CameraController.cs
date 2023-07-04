@@ -17,16 +17,16 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private bool invertY = false;
     [SerializeField]
-    private float smoothnessSpeed = 5f;
+    private float smoothness = 0.15f;
 
     [SerializeField]
     private Vector2 pitchRange = new Vector2(-45f, 89f);
 
     // x axis rotation
-    private float actualPitch = 0f;
+    private float pp = 0f; // next pitch
     protected float pitch = 0f;
     // y axis rotation
-    private float actualYaw = 0f;
+    private float yy = 0f; // next yaw
     protected float yaw = 0f;
 
     // camera horizontal direction
@@ -39,18 +39,19 @@ public class CameraController : MonoBehaviour
 
     }
 
+    private float pVelocity = 0f;
+    private float yVelocity = 0f;
+
     protected virtual void Update()
     {
         Vector2 v = new Vector2(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis));
 
-        actualPitch += v.y * sensitivityY * (invertY ? 1f : -1f);
-        actualPitch = Mathf.Clamp(actualPitch, pitchRange.x * Mathf.Deg2Rad, pitchRange.y * Mathf.Deg2Rad);
-        actualYaw += v.x * sensitivityX;
+        pp += v.y * sensitivityY * (invertY ? 1f : -1f);
+        pp = Mathf.Clamp(pp, pitchRange.x * Mathf.Deg2Rad, pitchRange.y * Mathf.Deg2Rad);
+        yy += v.x * sensitivityX;
 
-        float s = smoothnessSpeed != 0f ? smoothnessSpeed * Time.deltaTime : 1f;
-
-        pitch = Mathf.Lerp(pitch, actualPitch, s);
-        yaw = Mathf.Lerp(yaw, actualYaw, s);
+        pitch = Mathf.SmoothDamp(pitch, pp, ref pVelocity, smoothness);
+        yaw = Mathf.SmoothDamp(yaw, yy, ref yVelocity, smoothness);
 
 
 
