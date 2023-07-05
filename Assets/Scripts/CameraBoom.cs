@@ -27,14 +27,21 @@ public class CameraBoom : MonoBehaviour
 
     private void Boom(Vector3 dir)
     {
-        RaycastHit hit;
-        bool collision = Physics.Raycast(transform.parent.position, dir, out hit, springLength);
-        bool isCharacter = collision && hit.collider.gameObject.TryGetComponent<PlayerController>(out _);
+        RaycastHit[] hits = new RaycastHit[3];
+        int collisions = Physics.RaycastNonAlloc(transform.parent.position, dir, hits, springLength);
+        for (int i = 0; i < collisions; ++i) // collision
+        {
+            bool isCharacter = hits[i].collider.gameObject.TryGetComponent<PlayerController>(out _);
 
-        if (collision && !isCharacter && hit.distance <= d)
-            d = hit.distance;
-        else
+            if (!isCharacter && hits[i].distance <= d)
+                d = hits[i].distance;
+            else
+                d = Mathf.SmoothDamp(d, springLength, ref dVelocity, boomSpeed);
+        }
+        if (collisions == 0) // no collision
+        {
             d = Mathf.SmoothDamp(d, springLength, ref dVelocity, boomSpeed);
+        }
         transform.position = transform.parent.position + dir * d;
 
         Debug.DrawRay(transform.parent.position, dir * d, Color.red);
