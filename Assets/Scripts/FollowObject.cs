@@ -12,14 +12,22 @@ public class FollowObject : MonoBehaviour
     [SerializeField]
     private bool verticalFollow = false;
     [SerializeField]
+    private bool useInLateUpdate = false;
+    [SerializeField]
     private bool useInFixedUpdate = false;
     [SerializeField]
     private float smoothness = 5f;
 
 
+    void Update()
+    {
+        if (!useInFixedUpdate && !useInLateUpdate)
+            Follow(Time.deltaTime);
+    }
+
     void LateUpdate()
     {
-        if (!useInFixedUpdate)
+        if (!useInFixedUpdate && useInLateUpdate)
             Follow(Time.deltaTime);
     }
 

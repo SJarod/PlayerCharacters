@@ -7,9 +7,9 @@ public class SideScrollerCamera : CameraController
     private Vector3 offset = Vector3.zero;
 
 
-    protected override void Update()
+    protected override void LateUpdate()
     {
-        base.Update();
+        base.LateUpdate();
         cam.transform.position = transform.position + offset;
     }
 }

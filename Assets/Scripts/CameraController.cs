@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour
     private float pVelocity = 0f;
     private float yVelocity = 0f;
 
-    protected virtual void Update()
+    protected virtual void LateUpdate()
     {
         Vector2 v = new Vector2(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis));
 

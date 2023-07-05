@@ -16,7 +16,7 @@ public class CameraBoom : MonoBehaviour
         transform.position = transform.parent.position + controller.dir * springLength;
     }
 
-    void LateUpdate()
+    void Update()
     {
         Boom(controller.dir);
         LookAtParent();

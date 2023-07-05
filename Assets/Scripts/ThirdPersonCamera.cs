@@ -11,9 +11,9 @@ public class ThirdPersonCamera : CameraController
 
     }
 
-    protected override void Update()
+    protected override void LateUpdate()
     {
-        base.Update();
+        base.LateUpdate();
 
         float xaxis = Mathf.Sin(yaw);
         float zaxis = Mathf.Cos(yaw);
