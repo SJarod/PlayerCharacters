@@ -40,6 +40,7 @@ public class SpectatorController : PlayerController
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(SpectatorController))]
+[CanEditMultipleObjects]
 public class SpectatorControllerEditor : PlayerControllerEditor
 {
 

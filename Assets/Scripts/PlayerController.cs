@@ -145,6 +145,7 @@ public class PlayerController : MonoBehaviour
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(PlayerController))]
+[CanEditMultipleObjects]
 public class PlayerControllerEditor : Editor
 {
     private PlayerController self;
