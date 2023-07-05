@@ -43,14 +43,18 @@ public class FollowObject : MonoBehaviour
         {
             Vector3 p = target.transform.position;
             Vector3 t = new Vector3(p.x, verticalFollow ? p.y : transform.position.y, p.z);
-            transform.position = Vector3.Lerp(transform.position, t, smoothness <= 0f ? 1f : smoothness * dt);
+            transform.position = Vector3.Lerp(transform.position,
+                t,
+                smoothness <= 0f ? 1f : smoothness * dt);
         }
         if (followRotation)
         {
             Vector3 f = target.transform.forward;
             Vector3 ff = new Vector3(f.x, verticalFollow ? f.y : transform.forward.y, f.z);
             Quaternion t = Quaternion.LookRotation(ff.normalized);
-            transform.rotation = Quaternion.Slerp(transform.rotation, t, smoothness <= 0f ? 1f : smoothness * dt);
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                t,
+                smoothness <= 0f ? 1f : smoothness * dt);
         }
     }
 }

@@ -34,9 +34,14 @@ public class CameraBoom : MonoBehaviour
             bool isCharacter = hits[i].collider.gameObject.TryGetComponent<PlayerController>(out _);
 
             if (!isCharacter && hits[i].distance <= d)
+            {
                 d = hits[i].distance;
+                dVelocity = 0f;
+            }
             else
+            {
                 d = Mathf.SmoothDamp(d, springLength, ref dVelocity, boomSpeed);
+            }
         }
         if (collisions == 0) // no collision
         {
