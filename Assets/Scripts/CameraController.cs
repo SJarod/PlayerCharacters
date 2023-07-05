@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    private Camera cam;
+    protected Camera cam;
 
     [SerializeField]
     private string horizontalAxis = "CameraHorizontal";
@@ -30,8 +30,9 @@ public class CameraController : MonoBehaviour
     protected float yaw = 0f;
 
     // camera horizontal direction
-    public Vector3 cameraForward = Vector3.forward;
     public Vector3 cameraRight = Vector3.right;
+    public Vector3 cameraUp = Vector3.up;
+    public Vector3 cameraForward = Vector3.forward;
 
 
     protected virtual void Start()
@@ -55,9 +56,11 @@ public class CameraController : MonoBehaviour
 
 
 
-        Vector3 f = cam.transform.forward;
-        cameraForward = (new Vector3(f.x, 0f, f.z)).normalized;
         Vector3 r = cam.transform.right;
-        cameraRight = (new Vector3(r.x, 0f, r.z)).normalized;
+        cameraRight = new Vector3(r.x, 0f, r.z).normalized;
+        Vector3 u = cam.transform.up;
+        cameraUp = new Vector3(0f, u.y, 0f).normalized;
+        Vector3 f = cam.transform.forward;
+        cameraForward = new Vector3(f.x, 0f, f.z).normalized;
     }
 }
