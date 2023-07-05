@@ -40,6 +40,9 @@ public class PlayerController : MonoBehaviour
     private float groundCheckDistance = 0.5f;
 
     [SerializeField]
+    private float movementCollisionDistance = 0.3f;
+
+    [SerializeField]
     private float airDragCoefficient = 0.3f;
 
     private Vector3 inputVelocity;
@@ -62,14 +65,26 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float drag = bIsGrounded ? 1f : airDragCoefficient;
         float yVelocity = rb.velocity.y;
+        float drag = bIsGrounded ? 1f : airDragCoefficient;
 
         if (inputVelocity.sqrMagnitude > 0f)
             rb.velocity += inputVelocity * acceleration * drag * Time.fixedDeltaTime;
         else
             rb.velocity -= rb.velocity * decay * drag * Time.fixedDeltaTime;
         rb.velocity = Vector3.ClampMagnitude(new Vector3(rb.velocity.x, 0f, rb.velocity.z), maxMovementSpeed);
+
+        // fix horizontal velocity (collision)
+        RaycastHit hit;
+        if (rb.SweepTest(rb.velocity, out hit, movementCollisionDistance))
+        {
+            Vector3 hn = new Vector3(hit.normal.x, 0f, hit.normal.z);
+            Vector3 nv = new Vector3(Mathf.Sign(rb.velocity.x) * rb.velocity.x,
+                0f,
+                Mathf.Sign(rb.velocity.z) * rb.velocity.z);
+            rb.velocity += Vector3.Scale(hn.normalized, nv);
+        }
+
         rb.velocity = new Vector3(rb.velocity.x, yVelocity, rb.velocity.z);
     }
 
