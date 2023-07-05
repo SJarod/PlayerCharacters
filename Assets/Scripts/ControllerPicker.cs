@@ -21,7 +21,9 @@ public class ControllerPicker : MonoBehaviour
             {
                 Debug.Log("Taking control of " + hit.collider.name);
                 c.EnableController(true);
+                c.GetComponent<ControllerPicker>().enabled = true;
                 GetComponent<PlayerController>().EnableController(false);
+                enabled = false;
             }
         }
     }
