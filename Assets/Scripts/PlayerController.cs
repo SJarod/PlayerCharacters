@@ -1,52 +1,52 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(Collider))]
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody rb;
-    private CapsuleCollider playerCollider;
+    protected Rigidbody rb;
+    protected CapsuleCollider playerCollider;
     [SerializeField]
-    private CameraController cameraController;
+    protected CameraController cameraController;
 
 
     [SerializeField]
-    private string horizontalAxis = "Horizontal";
+    protected string horizontalAxis = "Horizontal";
     [SerializeField]
-    private string verticalAxis = "Vertical";
+    protected string verticalAxis = "Vertical";
     [SerializeField]
-    private string jumpButton = "Jump";
+    protected string jumpButton = "Jump";
 
 
     [SerializeField]
-    private bool useRigidbodyMass = true;
+    protected bool useRigidbodyMass = true;
     [SerializeField]
-    private float maxMovementSpeed = 5f;
+    protected float maxMovementSpeed = 5f;
     [SerializeField]
-    private float acceleration = 30f;
+    protected float acceleration = 30f;
     [SerializeField]
-    private float decay = 3f;
+    protected float decay = 3f;
     [SerializeField]
-    private float jumpForce = 5f;
+    protected float jumpForce = 5f;
 
     [SerializeField]
-    private bool rotateTowardsMovement = true;
+    protected bool rotateTowardsMovement = true;
     [SerializeField]
-    private bool rotateTowardsCamera = false;
+    protected bool rotateTowardsCamera = false;
     [SerializeField]
-    private float rotationSpeed = 0.1f;
+    protected float rotationSpeed = 0.1f;
 
     [SerializeField]
-    private float groundCheckDistance = 0.5f;
+    protected float groundCheckDistance = 0.5f;
 
     [SerializeField]
-    private float movementCollisionDistance = 0.3f;
+    protected float movementCollisionDistance = 0.3f;
 
     [SerializeField]
-    private float airDragCoefficient = 0.3f;
+    protected float airDragCoefficient = 0.3f;
 
-    private Vector3 inputVelocity;
-    private bool bIsGrounded = false;
+    protected Vector3 inputVelocity;
+    protected bool bIsGrounded = false;
 
 
     void Start()
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
         playerCollider = GetComponent<CapsuleCollider>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         CheckIsGrounded();
 
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         HorizontalMovementHandle();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         float yVelocity = rb.velocity.y;
         float drag = bIsGrounded ? 1f : airDragCoefficient;

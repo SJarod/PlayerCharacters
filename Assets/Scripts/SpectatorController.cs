@@ -2,49 +2,21 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
-public class SpectatorController : MonoBehaviour
+public class SpectatorController : PlayerController
 {
-    private Rigidbody rb;
     [SerializeField]
-    private CameraController cameraController;
+    private string depthAxis = "Depth";
 
 
-    [SerializeField]
-    private string xAxis = "Horizontal";
-    [SerializeField]
-    private string yAxis = "Depth";
-    [SerializeField]
-    private string zAxis = "Vertical";
-
-
-    [SerializeField]
-    private float maxMovementSpeed = 5f;
-    [SerializeField]
-    private float acceleration = 30f;
-    [SerializeField]
-    private float decay = 3f;
-
-
-    [SerializeField]
-    private float movementCollisionDistance = 0.3f;
-
-    private Vector3 inputVelocity;
-
-
-    private void Start()
+    protected override void Update()
     {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        inputVelocity = cameraController.cameraRight * Input.GetAxisRaw(xAxis) +
-            cameraController.cameraUp * Input.GetAxisRaw(yAxis) +
-            cameraController.cameraForward * Input.GetAxisRaw(zAxis);
+        inputVelocity = cameraController.cameraRight * Input.GetAxisRaw(horizontalAxis) +
+            cameraController.cameraUp * Input.GetAxisRaw(depthAxis) +
+            cameraController.cameraForward * Input.GetAxisRaw(verticalAxis);
         inputVelocity.Normalize();
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
         if (inputVelocity.sqrMagnitude > 0f)
             rb.velocity += inputVelocity * acceleration * Time.fixedDeltaTime;
