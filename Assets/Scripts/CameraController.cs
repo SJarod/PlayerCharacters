@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField]
-    protected Camera cam;
+    public Camera cam;
 
     [SerializeField]
     private string horizontalAxis = "CameraHorizontal";

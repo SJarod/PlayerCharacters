@@ -95,8 +95,7 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = cap.transform.rotation * Vector3.up;
         Vector3 start = transform.position + cap.center + dir * (cap.height * 0.5f - cap.radius);
         Vector3 end = transform.position + cap.center - dir * (cap.height * 0.49f - cap.radius);
-        RaycastHit hit;
-        bIsGrounded = Physics.CapsuleCast(start, end, cap.radius, Vector3.down, out hit, groundCheckDistance);
+        bIsGrounded = Physics.CapsuleCast(start, end, cap.radius, Vector3.down, out _, groundCheckDistance);
     }
 
     private void JumpHandle()
@@ -131,5 +130,12 @@ public class PlayerController : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(cameraController.cameraForward);
         }
+    }
+
+    public void EnableController(bool enable)
+    {
+        enabled = enable;
+        cameraController.enabled = enable;
+        cameraController.cam.depth = enable ? 1 : -1;
     }
 }
