@@ -138,6 +138,8 @@ public class PlayerController : MonoBehaviour
         enabled = enable;
         cameraController.enabled = enable;
         cameraController.cam.depth = enable ? 1 : -1;
+        cameraController.cam.enabled = enable;
+        cameraController.cam.gameObject.GetComponent<AudioListener>().enabled = enable;
     }
 }
 
