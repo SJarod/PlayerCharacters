@@ -15,7 +15,7 @@ public class ControllerPicker : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, cameraController.cameraForward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(cameraController.transform.position, cameraController.cameraForward, out hit, Mathf.Infinity))
         {
             PlayerController c;
             if (!hit.collider.gameObject.TryGetComponent<PlayerController>(out c))
