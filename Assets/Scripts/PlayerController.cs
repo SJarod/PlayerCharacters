@@ -76,7 +76,8 @@ public class PlayerController : MonoBehaviour
 
         // fix horizontal velocity (collision)
         RaycastHit hit;
-        if (rb.SweepTest(rb.velocity, out hit, movementCollisionDistance))
+        if (rb.SweepTest(rb.velocity, out hit, movementCollisionDistance) &&
+            (!hit.rigidbody || hit.rigidbody.isKinematic))
         {
             Vector3 hn = new Vector3(hit.normal.x, 0f, hit.normal.z);
             Vector3 nv = new Vector3(Mathf.Sign(rb.velocity.x) * rb.velocity.x,
