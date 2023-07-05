@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7142096834492630537}
   - component: {fileID: 4146435770178237025}
   - component: {fileID: 6752142232608549428}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4729962263122869268}
   - component: {fileID: 5443863618149525520}
   - component: {fileID: 8150150263371690038}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,6 +193,7 @@ MonoBehaviour:
   rotateTowardsCamera: 0
   rotationSpeed: 0.1
   groundCheckDistance: 0.5
+  movementCollisionDistance: 0.3
   airDragCoefficient: 0.3
 --- !u!1 &3754717532947985339
 GameObject:
@@ -238,7 +239,7 @@ GameObject:
   - component: {fileID: 5213156679087072619}
   - component: {fileID: 8625164946308157790}
   - component: {fileID: 6549596881874974739}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,6 +352,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3643504375296405352}
     m_Modifications:
+    - target: {fileID: 5311268866488478986, guid: dbef9daf45e0d3444ae64562c2563c1a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.998077
+      objectReference: {fileID: 0}
     - target: {fileID: 6192038344060643100, guid: dbef9daf45e0d3444ae64562c2563c1a, type: 3}
       propertyPath: m_RootOrder
       value: 0
