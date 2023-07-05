@@ -4,13 +4,9 @@ public class ControllerPicker : MonoBehaviour
 {
     [SerializeField]
     private string pickButton = "Pick";
+    [SerializeField]
     private CameraController cameraController;
 
-
-    private void Awake()
-    {
-        cameraController = GetComponent<CameraController>();
-    }
 
     void Update()
     {
