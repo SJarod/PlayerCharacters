@@ -414,7 +414,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2179538788351270316, guid: 4e0b51fd4409ebc44bce0d18220e6615, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6375226750430007488}
+      addedObject: {fileID: 3634049285801782366}
+    - targetCorrespondingSourceObject: {fileID: 2179538788351270316, guid: 4e0b51fd4409ebc44bce0d18220e6615, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 768544761941098622}
   m_SourcePrefab: {fileID: 100100000, guid: 4e0b51fd4409ebc44bce0d18220e6615, type: 3}
 --- !u!4 &6989453693155039971 stripped
 Transform:
@@ -426,7 +429,34 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2179538788351270316, guid: 4e0b51fd4409ebc44bce0d18220e6615, type: 3}
   m_PrefabInstance: {fileID: 8214046832533214939}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6375226750430007488
+--- !u!54 &3634049285801782366
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8052839559753124727}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &768544761941098622
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -435,16 +465,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8052839559753124727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c1b1ebf52e777d4ca0a0e8b038a5c65, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bd27eb416b18bd4bbf0b6a91b0566d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 8834786326105871358}
+  target: {fileID: 1940597961290008592}
   followMovement: 1
   followRotation: 0
   verticalFollow: 1
-  useInLateUpdate: 1
-  useInFixedUpdate: 0
-  smoothness: 5
+  smoothness: 10
 --- !u!114 &9222556677900111761 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1009706251609971018, guid: 4e0b51fd4409ebc44bce0d18220e6615, type: 3}
