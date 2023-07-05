@@ -291,7 +291,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!136 &4764145641010999577
@@ -442,7 +442,8 @@ MonoBehaviour:
   followMovement: 1
   followRotation: 0
   verticalFollow: 1
-  useInFixedUpdate: 1
+  useInLateUpdate: 1
+  useInFixedUpdate: 0
   smoothness: 5
 --- !u!114 &9222556677900111761 stripped
 MonoBehaviour:

@@ -142,7 +142,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!136 &5443863618149525520
@@ -354,7 +354,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5311268866488478986, guid: dbef9daf45e0d3444ae64562c2563c1a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.998077
+      value: -9.999896
       objectReference: {fileID: 0}
     - target: {fileID: 6192038344060643100, guid: dbef9daf45e0d3444ae64562c2563c1a, type: 3}
       propertyPath: m_RootOrder
@@ -433,7 +433,8 @@ MonoBehaviour:
   followMovement: 1
   followRotation: 0
   verticalFollow: 1
-  useInFixedUpdate: 1
+  useInLateUpdate: 1
+  useInFixedUpdate: 0
   smoothness: 5
 --- !u!4 &2992625207202622808 stripped
 Transform:
