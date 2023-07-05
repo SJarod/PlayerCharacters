@@ -4,14 +4,18 @@ public class ControllerPicker : MonoBehaviour
 {
     [SerializeField]
     private string pickButton = "Pick";
-    [SerializeField]
-    private CameraController controller;
+    private CameraController cameraController;
 
+
+    private void Awake()
+    {
+        cameraController = GetComponent<CameraController>();
+    }
 
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, controller.cameraForward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(transform.position, cameraController.cameraForward, out hit, Mathf.Infinity))
         {
             PlayerController c;
             if (!hit.collider.gameObject.TryGetComponent<PlayerController>(out c))
