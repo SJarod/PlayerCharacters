@@ -10,8 +10,6 @@ public class FollowRigidbody : MonoBehaviour
     [SerializeField]
     private bool followMovement = true;
     [SerializeField]
-    private bool followRotation = false;
-    [SerializeField]
     private bool verticalFollow = false;
     [SerializeField]
     private float smoothness = 10f;
@@ -23,19 +21,20 @@ public class FollowRigidbody : MonoBehaviour
     }
 
     private Vector3 m = Vector3.zero;
-    private Vector3 r = Vector3.zero;
 
     void FixedUpdate()
     {
         if (followMovement)
-            rb.velocity = Vector3.SmoothDamp(rb.velocity,
-                new Vector3(target.velocity.x, verticalFollow ? target.velocity.y : 0f, target.velocity.z),
+        {
+            if (rb.transform.position == target.transform.position)
+                m = Vector3.zero;
+
+            rb.MovePosition(Vector3.SmoothDamp(rb.transform.position,
+                new Vector3(target.transform.position.x,
+                verticalFollow ? target.transform.position.y : 0f,
+                target.transform.position.z),
                 ref m,
-                smoothness <= 0f ? 1f : smoothness * Time.fixedDeltaTime);
-        if (followRotation)
-            rb.angularVelocity = Vector3.SmoothDamp(rb.angularVelocity,
-                target.angularVelocity,
-                ref r,
-                smoothness <= 0f ? 1f : smoothness * Time.fixedDeltaTime);
+                smoothness <= 0f ? 1f : smoothness * Time.fixedDeltaTime));
+        }
     }
 }

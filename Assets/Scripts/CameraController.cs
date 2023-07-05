@@ -50,6 +50,10 @@ public class CameraController : MonoBehaviour
         pp = Mathf.Clamp(pp, pitchRange.x * Mathf.Deg2Rad, pitchRange.y * Mathf.Deg2Rad);
         yy += v.x * sensitivityX;
 
+        if (pitch == pp)
+            pVelocity = 0f;
+        if (yaw == yy)
+            yVelocity = 0f;
         pitch = Mathf.SmoothDamp(pitch, pp, ref pVelocity, smoothness);
         yaw = Mathf.SmoothDamp(yaw, yy, ref yVelocity, smoothness);
 
