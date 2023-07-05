@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -36,3 +37,11 @@ public class SpectatorController : PlayerController
         }
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(SpectatorController))]
+public class SpectatorControllerEditor : PlayerControllerEditor
+{
+
+}
+#endif

@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -139,3 +140,26 @@ public class PlayerController : MonoBehaviour
         cameraController.cam.depth = enable ? 1 : -1;
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(PlayerController))]
+public class PlayerControllerEditor : Editor
+{
+    private PlayerController self;
+
+    private void OnEnable()
+    {
+        self = (PlayerController)target;
+    }
+
+    public override void OnInspectorGUI()
+    {
+        if (GUILayout.Button("Enable/Disable"))
+        {
+            self.EnableController(!self.enabled);
+        }
+
+        base.OnInspectorGUI();
+    }
+}
+#endif
