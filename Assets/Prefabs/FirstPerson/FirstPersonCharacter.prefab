@@ -329,6 +329,7 @@ MonoBehaviour:
   rotateTowardsCamera: 0
   rotationSpeed: 20
   groundCheckDistance: 0.5
+  movementCollisionDistance: 0.3
   airDragCoefficient: 0.3
 --- !u!1001 &4552952977413357749
 PrefabInstance:
@@ -348,7 +349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6192038344060643100, guid: e50b0558bb967f542b4ddf3f1187f7a2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6192038344060643100, guid: e50b0558bb967f542b4ddf3f1187f7a2, type: 3}
       propertyPath: m_LocalPosition.z
