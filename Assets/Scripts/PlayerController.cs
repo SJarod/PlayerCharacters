@@ -50,6 +50,17 @@ public class PlayerController : MonoBehaviour
     protected bool bIsGrounded = false;
 
 
+    private void Awake()
+    {
+        CapsuleCollider c;
+        if (!TryGetComponent<CapsuleCollider>(out c))
+            return;
+
+        c.sharedMaterial = new PhysicMaterial();
+        c.sharedMaterial.frictionCombine = PhysicMaterialCombine.Minimum;
+        c.sharedMaterial.dynamicFriction = 0f;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -69,23 +80,13 @@ public class PlayerController : MonoBehaviour
         float yVelocity = rb.velocity.y;
         float drag = bIsGrounded ? 1f : airDragCoefficient;
 
+
         if (inputVelocity.sqrMagnitude > 0f)
             rb.velocity += inputVelocity * acceleration * drag * Time.fixedDeltaTime;
         else
             rb.velocity -= rb.velocity * decay * drag * Time.fixedDeltaTime;
         rb.velocity = Vector3.ClampMagnitude(new Vector3(rb.velocity.x, 0f, rb.velocity.z), maxMovementSpeed);
 
-        // fix horizontal velocity (collision)
-        RaycastHit hit;
-        if (rb.SweepTest(rb.velocity, out hit, movementCollisionDistance) &&
-            (!hit.rigidbody || hit.rigidbody.isKinematic))
-        {
-            Vector3 hn = new Vector3(hit.normal.x, 0f, hit.normal.z);
-            Vector3 nv = new Vector3(Mathf.Sign(rb.velocity.x) * rb.velocity.x,
-                0f,
-                Mathf.Sign(rb.velocity.z) * rb.velocity.z);
-            rb.velocity += Vector3.Scale(hn.normalized, nv);
-        }
 
         rb.velocity = new Vector3(rb.velocity.x, yVelocity, rb.velocity.z);
     }
