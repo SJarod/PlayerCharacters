@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class PlayerController2D : Controller
+public class PlayerController2D : CharacterController
 {
     protected Rigidbody2D rb;
     protected CapsuleCollider2D playerCollider;
@@ -13,7 +13,7 @@ public class PlayerController2D : Controller
     private float coyoteTimeCounter = 0f;
 
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<CapsuleCollider2D>();
@@ -36,6 +36,14 @@ public class PlayerController2D : Controller
         vx = Mathf.Clamp(vx, -maxMovementSpeed, maxMovementSpeed);
 
         rb.velocity = new Vector2(vx, vy);
+        lastVelocity = rb.velocity;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        float vy = rb.velocity.y;
+        rb.velocity = new Vector2(-collision.relativeVelocity.x, 0f).normalized * Mathf.Abs(lastVelocity.x);
+        rb.velocity += Vector2.up * vy;
     }
 
     protected override void CheckIsGrounded()

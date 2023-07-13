@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Controller : MonoBehaviour
+public abstract class CharacterController : MonoBehaviour
 {
     [SerializeField]
     protected string horizontalAxis = "Horizontal";
@@ -37,8 +37,12 @@ public abstract class Controller : MonoBehaviour
     [SerializeField]
     protected float airDragCoefficient = 0.3f;
 
-    protected Vector3 inputVelocity;
+    protected Vector3 inputVelocity = Vector3.zero;
+    protected Vector3 lastVelocity = Vector3.zero;
     protected bool bIsGrounded = false;
+
+    [HideInInspector]
+    public Vector3 lastInputVelocity = Vector3.zero;
 
 
     protected virtual void Update()
@@ -47,6 +51,9 @@ public abstract class Controller : MonoBehaviour
 
         JumpHandle();
         HorizontalMovementHandle();
+
+        if (inputVelocity.sqrMagnitude > 0f)
+            lastInputVelocity = inputVelocity.normalized;
     }
 
     protected abstract void FixedUpdate();

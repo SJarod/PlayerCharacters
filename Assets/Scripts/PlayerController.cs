@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class PlayerController : Controller
+public class PlayerController : CharacterController
 {
     protected Rigidbody rb;
     protected CapsuleCollider playerCollider;
@@ -11,27 +11,24 @@ public class PlayerController : Controller
     protected CameraController cameraController;
 
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     protected override void FixedUpdate()
     {
-        float yVelocity = rb.velocity.y;
         float drag = bIsGrounded ? 1f : airDragCoefficient;
 
+        Vector3 vh = rb.velocity;
+        float vy = rb.velocity.y;
+
         if (inputVelocity.sqrMagnitude > 0f)
-            rb.velocity += inputVelocity * acceleration * drag * Time.fixedDeltaTime;
+            vh += inputVelocity * acceleration * drag * Time.fixedDeltaTime;
         else
-            rb.velocity -= rb.velocity * decay * drag * Time.fixedDeltaTime;
-        rb.velocity = Vector3.ClampMagnitude(new Vector3(rb.velocity.x, 0f, rb.velocity.z), maxMovementSpeed);
+            vh -= vh * decay * drag * Time.fixedDeltaTime;
+        vh = Vector3.ClampMagnitude(new Vector3(vh.x, 0f, vh.z), maxMovementSpeed);
 
         // fix horizontal velocity (collision)
         RaycastHit hit;
@@ -45,7 +42,17 @@ public class PlayerController : Controller
             rb.velocity += Vector3.Scale(hn.normalized, nv);
         }
 
-        rb.velocity = new Vector3(rb.velocity.x, yVelocity, rb.velocity.z);
+        rb.velocity = new Vector3(vh.x, vy, vh.z);
+        lastVelocity = rb.velocity;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("salut");
+        float vy = rb.velocity.y;
+        Vector3 rel = -(collision.relativeVelocity - (Vector3.up * collision.relativeVelocity.y));
+        rb.velocity = Vector3.Scale(rel.normalized, new Vector3(Mathf.Abs(lastVelocity.x), 0f, Mathf.Abs(lastVelocity.z)));
+        rb.velocity += Vector3.up * vy;
     }
 
     protected override void CheckIsGrounded()

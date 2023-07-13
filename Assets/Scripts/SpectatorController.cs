@@ -24,17 +24,6 @@ public class SpectatorController : PlayerController
         else
             rb.velocity -= rb.velocity * decay * Time.fixedDeltaTime;
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxMovementSpeed);
-
-        // fix horizontal velocity (collision)
-        RaycastHit hit;
-        if (rb.SweepTest(rb.velocity, out hit, movementCollisionDistance) &&
-            (!hit.rigidbody || hit.rigidbody.isKinematic))
-        {
-            Vector3 nv = new Vector3(Mathf.Sign(rb.velocity.x) * rb.velocity.x,
-                Mathf.Sign(rb.velocity.y) * rb.velocity.y,
-                Mathf.Sign(rb.velocity.z) * rb.velocity.z);
-            rb.velocity += Vector3.Scale(hit.normal, nv);
-        }
     }
 }
 
