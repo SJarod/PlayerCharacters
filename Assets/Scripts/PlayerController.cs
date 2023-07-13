@@ -49,6 +49,12 @@ public class PlayerController : CharacterController
             rb.velocity += Vector3.Scale(hn.normalized, nv);
         }
 
+        if (bUsePlatformerPhysics)
+        {
+            vy -= (vy >= 0f ? jumpResistance : falloffAcceleration) * Time.fixedDeltaTime;
+            vy = Mathf.Clamp(vy, -maxFalloffSpeed, Mathf.Infinity);
+        }
+
         rb.velocity = new Vector3(vh.x, vy, vh.z);
         lastVelocity = rb.velocity;
     }
@@ -88,7 +94,7 @@ public class PlayerController : CharacterController
             StartCoroutine(JumpMercy());
         }
 
-        if (bJumpQuerry && bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded)
+        if (bJumpQuerry && (bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded))
         {
             rb.velocity -= Vector3.Scale(Vector3.up, rb.velocity);
             rb.AddForce(Vector3.up * jumpForce, bUseRigidbodyMass ? ForceMode.Impulse : ForceMode.VelocityChange);

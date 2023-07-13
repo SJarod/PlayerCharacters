@@ -34,8 +34,11 @@ public class PlayerController2D : CharacterController
             vx -= vx * decay * drag * Time.fixedDeltaTime;
         vx = Mathf.Clamp(vx, -maxMovementSpeed, maxMovementSpeed);
 
-        vy -= (vy >= 0f ? jumpResistance : falloffAcceleration) * Time.fixedDeltaTime;
-        vy = Mathf.Clamp(vy, -maxFalloffSpeed, Mathf.Infinity);
+        if (bUsePlatformerPhysics)
+        {
+            vy -= (vy >= 0f ? jumpResistance : falloffAcceleration) * Time.fixedDeltaTime;
+            vy = Mathf.Clamp(vy, -maxFalloffSpeed, Mathf.Infinity);
+        }
 
         rb.velocity = new Vector2(vx, vy);
         lastVelocity = rb.velocity;
@@ -61,7 +64,7 @@ public class PlayerController2D : CharacterController
 
     protected override void JumpHandle()
     {
-        if (Input.GetButtonUp(jumpButton))
+        if (bUsePlatformerPhysics && Input.GetButtonUp(jumpButton))
         {
             coyoteTimeCounter = 0f;
             AddGravity2D(ref rb, 1f, ForceMode2D.Impulse);
@@ -73,7 +76,7 @@ public class PlayerController2D : CharacterController
             StartCoroutine(JumpMercy());
         }
 
-        if (bJumpQuerry && bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded)
+        if (bJumpQuerry && (bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded))
         {
             rb.velocity -= Vector2.Scale(Vector2.up, rb.velocity);
             rb.AddForce(Vector2.up * jumpForce * (bUseRigidbodyMass ? rb.mass : 1f), ForceMode2D.Impulse);
