@@ -317,21 +317,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc71b528553593e40a0b884cc92f3ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraController: {fileID: 1354840020397082165}
   horizontalAxis: Horizontal
   verticalAxis: Vertical
   jumpButton: Jump
-  useRigidbodyMass: 1
+  bUseRigidbodyMass: 1
+  bUsePlatformerPhysics: 0
   maxMovementSpeed: 5
   acceleration: 30
   decay: 3
   jumpForce: 5
-  rotateTowardsMovement: 0
-  rotateTowardsCamera: 0
+  bRotateTowardsMovement: 1
+  bRotateTowardsCamera: 0
   rotationSpeed: 20
-  groundCheckDistance: 0.5
+  groundCheckDistance: 0.1
   movementCollisionDistance: 0.3
   airDragCoefficient: 0.3
+  jumpResistance: 49
+  falloffAcceleration: 51
+  maxFalloffSpeed: 50
+  gravityMultiplier: 1.1
+  jumpMercy: 0.1
+  coyoteTime: 0.1
+  adaptativeJumpSpeedThreshold: 15
+  lastInputVelocity: {x: 0, y: 0, z: 0}
+  cameraController: {fileID: 1354840020397082165}
+  bQueriesHitBackfaces: 0
+  bQueriesHitTriggers: 0
 --- !u!1001 &4552952977413357749
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -228,15 +228,25 @@ MonoBehaviour:
   horizontalAxis: Horizontal
   verticalAxis: Vertical
   jumpButton: Jump
-  useRigidbodyMass: 1
-  maxMovementSpeed: 5
-  acceleration: 30
-  decay: 3
-  jumpForce: 5
-  rotateTowardsMovement: 1
-  rotateTowardsCamera: 0
+  bUseRigidbodyMass: 1
+  bUsePlatformerPhysics: 1
+  maxMovementSpeed: 10
+  acceleration: 99
+  decay: 8
+  jumpForce: 25
+  bRotateTowardsMovement: 1
+  bRotateTowardsCamera: 0
   rotationSpeed: 0.1
-  groundCheckDistance: 0.5
+  groundCheckDistance: 0.1
   movementCollisionDistance: 0.3
-  airDragCoefficient: 0.3
-  coyoteTime: 0.2
+  airDragCoefficient: 0.2
+  jumpResistance: 49
+  falloffAcceleration: 51
+  maxFalloffSpeed: 50
+  gravityMultiplier: 1.1
+  jumpMercy: 0.1
+  coyoteTime: 0.1
+  adaptativeJumpSpeedThreshold: 15
+  lastInputVelocity: {x: 0, y: 0, z: 0}
+  bQueriesStartInColliders: 0
+  bQueriesHitTriggers: 0

@@ -62,8 +62,8 @@ public class PlayerController : CharacterController
     private void OnCollisionEnter(Collision collision)
     {
         float vy = rb.velocity.y;
-        Vector3 rel = -(collision.relativeVelocity - (Vector3.up * collision.relativeVelocity.y));
-        rb.velocity = Vector3.Scale(rel.normalized, new Vector3(Mathf.Abs(lastVelocity.x), 0f, Mathf.Abs(lastVelocity.z)));
+        rb.velocity = Vector3.Scale(-collision.relativeVelocity.normalized,
+            new Vector3(Mathf.Abs(lastVelocity.x), 0f, Mathf.Abs(lastVelocity.z)));
         rb.velocity += Vector3.up * vy;
     }
 
