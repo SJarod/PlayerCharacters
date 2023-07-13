@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : Controller
 {
     protected Rigidbody rb;
     protected CapsuleCollider playerCollider;
@@ -11,60 +11,18 @@ public class PlayerController : MonoBehaviour
     protected CameraController cameraController;
 
 
-    [SerializeField]
-    protected string horizontalAxis = "Horizontal";
-    [SerializeField]
-    protected string verticalAxis = "Vertical";
-    [SerializeField]
-    protected string jumpButton = "Jump";
-
-
-    [SerializeField]
-    protected bool useRigidbodyMass = true;
-    [SerializeField]
-    protected float maxMovementSpeed = 5f;
-    [SerializeField]
-    protected float acceleration = 30f;
-    [SerializeField]
-    protected float decay = 3f;
-    [SerializeField]
-    protected float jumpForce = 5f;
-
-    [SerializeField]
-    protected bool rotateTowardsMovement = true;
-    [SerializeField]
-    protected bool rotateTowardsCamera = false;
-    [SerializeField]
-    protected float rotationSpeed = 0.1f;
-
-    [SerializeField]
-    protected float groundCheckDistance = 0.5f;
-
-    [SerializeField]
-    protected float movementCollisionDistance = 0.3f;
-
-    [SerializeField]
-    protected float airDragCoefficient = 0.3f;
-
-    protected Vector3 inputVelocity;
-    protected bool bIsGrounded = false;
-
-
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
-        CheckIsGrounded();
-
-        JumpHandle();
-        HorizontalMovementHandle();
+        base.Update();
     }
 
-    protected virtual void FixedUpdate()
+    protected override void FixedUpdate()
     {
         float yVelocity = rb.velocity.y;
         float drag = bIsGrounded ? 1f : airDragCoefficient;
@@ -90,7 +48,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, yVelocity, rb.velocity.z);
     }
 
-    private void CheckIsGrounded()
+    protected override void CheckIsGrounded()
     {
         CapsuleCollider cap = playerCollider;
         Vector3 dir = cap.transform.rotation * Vector3.up;
@@ -99,7 +57,7 @@ public class PlayerController : MonoBehaviour
         bIsGrounded = Physics.CapsuleCast(start, end, cap.radius, Vector3.down, out _, groundCheckDistance);
     }
 
-    private void JumpHandle()
+    protected override void JumpHandle()
     {
         if (!bIsGrounded)
             return;
@@ -112,8 +70,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private float rVelocity = 0f;
-
-    private void HorizontalMovementHandle()
+    protected override void HorizontalMovementHandle()
     {
         inputVelocity = cameraController.cameraRight * Input.GetAxisRaw(horizontalAxis) +
             cameraController.cameraForward * Input.GetAxisRaw(verticalAxis);
@@ -133,9 +90,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void EnableController(bool enable)
+    public override void EnableController(bool enable)
     {
-        enabled = enable;
+        base.EnableController(enable);
         cameraController.enabled = enable;
         cameraController.cam.depth = enable ? 1 : -1;
         cameraController.cam.enabled = enable;
