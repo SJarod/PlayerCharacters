@@ -11,10 +11,17 @@ public class PlayerController : CharacterController
     protected CameraController cameraController;
 
 
+    public bool bQueriesHitBackfaces = false;
+    public bool bQueriesHitTriggers = false;
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
+
+        Physics.queriesHitBackfaces = bQueriesHitBackfaces;
+        Physics.queriesHitTriggers = bQueriesHitTriggers;
     }
 
     protected override void FixedUpdate()
@@ -48,7 +55,6 @@ public class PlayerController : CharacterController
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("salut");
         float vy = rb.velocity.y;
         Vector3 rel = -(collision.relativeVelocity - (Vector3.up * collision.relativeVelocity.y));
         rb.velocity = Vector3.Scale(rel.normalized, new Vector3(Mathf.Abs(lastVelocity.x), 0f, Mathf.Abs(lastVelocity.z)));
@@ -57,22 +63,36 @@ public class PlayerController : CharacterController
 
     protected override void CheckIsGrounded()
     {
-        CapsuleCollider cap = playerCollider;
-        Vector3 dir = cap.transform.rotation * Vector3.up;
-        Vector3 start = transform.position + cap.center + dir * (cap.height * 0.5f - cap.radius);
-        Vector3 end = transform.position + cap.center - dir * (cap.height * 0.49f - cap.radius);
-        bIsGrounded = Physics.CapsuleCast(start, end, cap.radius, Vector3.down, out _, groundCheckDistance);
+        Vector3 dir = playerCollider.transform.rotation * Vector3.up;
+        Vector3 lowerSpherePos = transform.position +
+            playerCollider.center -
+            dir * (playerCollider.height * 0.49f - playerCollider.radius);
+        bIsGrounded = Physics.SphereCast(lowerSpherePos,
+            playerCollider.radius,
+            Vector3.down,
+            out _,
+            groundCheckDistance);
     }
 
     protected override void JumpHandle()
     {
-        if (!bIsGrounded)
-            return;
+        if (bUsePlatformerPhysics && Input.GetButtonUp(jumpButton))
+        {
+            coyoteTimeCounter = 0f;
+            AddGravity(ref rb, 1f, ForceMode.Impulse);
+        }
 
         if (Input.GetButtonDown(jumpButton))
         {
+            bJumpQuerry = true;
+            StartCoroutine(JumpMercy());
+        }
+
+        if (bJumpQuerry && bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded)
+        {
             rb.velocity -= Vector3.Scale(Vector3.up, rb.velocity);
-            rb.AddForce(Vector3.up * jumpForce, useRigidbodyMass ? ForceMode.Impulse : ForceMode.VelocityChange);
+            rb.AddForce(Vector3.up * jumpForce, bUseRigidbodyMass ? ForceMode.Impulse : ForceMode.VelocityChange);
+            bJumpQuerry = false;
         }
     }
 
@@ -83,7 +103,7 @@ public class PlayerController : CharacterController
             cameraController.cameraForward * Input.GetAxisRaw(verticalAxis);
         inputVelocity.Normalize();
 
-        if (rotateTowardsMovement && inputVelocity.sqrMagnitude > 0f)
+        if (bRotateTowardsMovement && inputVelocity.sqrMagnitude > 0f)
         {
             float r = Mathf.SmoothDampAngle(transform.rotation.eulerAngles.y,
                 Quaternion.LookRotation(inputVelocity).eulerAngles.y,
@@ -91,7 +111,7 @@ public class PlayerController : CharacterController
                 rotationSpeed);
             transform.rotation = Quaternion.Euler(0f, r, 0f);
         }
-        else if (rotateTowardsCamera)
+        else if (bRotateTowardsCamera)
         {
             transform.rotation = Quaternion.LookRotation(cameraController.cameraForward);
         }

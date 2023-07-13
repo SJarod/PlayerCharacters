@@ -8,9 +8,8 @@ public class PlayerController2D : CharacterController
     protected CapsuleCollider2D playerCollider;
 
 
-    [SerializeField]
-    private float coyoteTime = 0.2f;
-    private float coyoteTimeCounter = 0f;
+    public bool bQueriesStartInColliders = false;
+    public bool bQueriesHitTriggers = false;
 
 
     private void Awake()
@@ -18,8 +17,8 @@ public class PlayerController2D : CharacterController
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<CapsuleCollider2D>();
 
-        Physics2D.queriesStartInColliders = false;
-        Physics2D.queriesHitTriggers = false;
+        Physics2D.queriesStartInColliders = bQueriesStartInColliders;
+        Physics2D.queriesHitTriggers = bQueriesHitTriggers;
     }
 
     protected override void FixedUpdate()
@@ -35,6 +34,9 @@ public class PlayerController2D : CharacterController
             vx -= vx * decay * drag * Time.fixedDeltaTime;
         vx = Mathf.Clamp(vx, -maxMovementSpeed, maxMovementSpeed);
 
+        vy -= (vy >= 0f ? jumpResistance : falloffAcceleration) * Time.fixedDeltaTime;
+        vy = Mathf.Clamp(vy, -maxFalloffSpeed, Mathf.Infinity);
+
         rb.velocity = new Vector2(vx, vy);
         lastVelocity = rb.velocity;
     }
@@ -49,10 +51,6 @@ public class PlayerController2D : CharacterController
     protected override void CheckIsGrounded()
     {
         bIsGrounded = Physics2D.CircleCast(transform.position, playerCollider.size.x, Vector2.down, groundCheckDistance);
-        if (bIsGrounded)
-            coyoteTimeCounter = coyoteTime;
-        else
-            coyoteTimeCounter -= Time.deltaTime;
     }
 
     protected override void HorizontalMovementHandle()
@@ -63,13 +61,23 @@ public class PlayerController2D : CharacterController
 
     protected override void JumpHandle()
     {
-        if (!bIsGrounded)
-            return;
+        if (Input.GetButtonUp(jumpButton))
+        {
+            coyoteTimeCounter = 0f;
+            AddGravity2D(ref rb, 1f, ForceMode2D.Impulse);
+        }
 
         if (Input.GetButtonDown(jumpButton))
         {
+            bJumpQuerry = true;
+            StartCoroutine(JumpMercy());
+        }
+
+        if (bJumpQuerry && bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded)
+        {
             rb.velocity -= Vector2.Scale(Vector2.up, rb.velocity);
-            rb.AddForce(Vector2.up * jumpForce * (useRigidbodyMass ? rb.mass : 1f), ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * jumpForce * (bUseRigidbodyMass ? rb.mass : 1f), ForceMode2D.Impulse);
+            bJumpQuerry = false;
         }
     }
 }
