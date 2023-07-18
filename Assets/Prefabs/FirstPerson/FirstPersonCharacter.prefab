@@ -330,7 +330,6 @@ MonoBehaviour:
   bRotateTowardsCamera: 0
   rotationSpeed: 20
   groundCheckDistance: 0.1
-  movementCollisionDistance: 0.3
   airDragCoefficient: 0.3
   jumpResistance: 49
   falloffAcceleration: 51
@@ -341,6 +340,10 @@ MonoBehaviour:
   adaptativeJumpSpeedThreshold: 15
   lastInputVelocity: {x: 0, y: 0, z: 0}
   cameraController: {fileID: 1354840020397082165}
+  bSweeptest: 1
+  movementCollisionDistance: 0.1
+  bCreatePhysicMaterial: 0
+  physicMaterialFriction: 0
   bQueriesHitBackfaces: 0
   bQueriesHitTriggers: 0
 --- !u!1001 &4552952977413357749
