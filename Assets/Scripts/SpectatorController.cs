@@ -24,6 +24,10 @@ public class SpectatorController : PlayerController
         else
             rb.velocity -= rb.velocity * decay * Time.fixedDeltaTime;
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxMovementSpeed);
+
+
+        if (bSweeptest)
+            rb.velocity = PreCollisionSweeptest(rb.velocity, true);
     }
 }
 

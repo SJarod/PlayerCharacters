@@ -10,18 +10,42 @@ public class PlayerController : CharacterController
     [SerializeField]
     protected CameraController cameraController;
 
+    [SerializeField]
+    protected bool bSweeptest = true;
+    [SerializeField]
+    protected float movementCollisionDistance = 0.1f;
+    [SerializeField]
+    protected bool bCreatePhysicMaterial = false;
+    [SerializeField]
+    protected float physicMaterialFriction = 0f;
+
 
     public bool bQueriesHitBackfaces = false;
     public bool bQueriesHitTriggers = false;
 
 
-    private void Awake()
+    protected void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
 
         Physics.queriesHitBackfaces = bQueriesHitBackfaces;
         Physics.queriesHitTriggers = bQueriesHitTriggers;
+
+        if (bCreatePhysicMaterial)
+            CreatePhysicMaterial(physicMaterialFriction);
+    }
+
+    protected void CreatePhysicMaterial(float friction)
+    {
+        Collider collider;
+        if (!TryGetComponent<Collider>(out collider))
+            return;
+
+        collider.material = new PhysicMaterial("NoFriction");
+        collider.material.frictionCombine = PhysicMaterialCombine.Minimum;
+        collider.material.staticFriction = friction;
+        collider.material.dynamicFriction = friction;
     }
 
     protected override void FixedUpdate()
@@ -37,16 +61,10 @@ public class PlayerController : CharacterController
             vh -= vh * decay * drag * Time.fixedDeltaTime;
         vh = Vector3.ClampMagnitude(new Vector3(vh.x, 0f, vh.z), maxMovementSpeed);
 
-        // fix horizontal velocity (collision)
-        RaycastHit hit;
-        if (rb.SweepTest(vh, out hit, movementCollisionDistance) &&
-            (!hit.rigidbody || hit.rigidbody.isKinematic))
-        {
-            Vector3 nv = new Vector3(Mathf.Sign(vh.x) * vh.x,
-                0f,
-                Mathf.Sign(vh.z) * vh.z);
-            vh += Vector3.Scale(hit.normal, nv);
-        }
+
+        if (bSweeptest)
+            vh = PreCollisionSweeptest(vh);
+
 
         if (bUsePlatformerPhysics)
         {
@@ -61,8 +79,8 @@ public class PlayerController : CharacterController
     private void OnCollisionEnter(Collision collision)
     {
         float vy = rb.velocity.y;
-        rb.velocity = Vector3.Scale(-collision.relativeVelocity.normalized,
-            new Vector3(Mathf.Abs(lastVelocity.x), 0f, Mathf.Abs(lastVelocity.z)));
+        Vector3 rel = new Vector3(collision.relativeVelocity.x, 0f, collision.relativeVelocity.z).normalized;
+        rb.velocity = Vector3.Scale(-rel, new Vector3(Mathf.Abs(lastVelocity.x), 0f, Mathf.Abs(lastVelocity.z)));
         rb.velocity += Vector3.up * vy;
     }
 
@@ -122,6 +140,30 @@ public class PlayerController : CharacterController
         }
     }
 
+    protected Vector3 PreCollisionSweeptest(Vector3 vh, bool bVertical = false)
+    {
+        // fix horizontal velocity (collision)
+        RaycastHit[] hits = rb.SweepTestAll(vh.normalized, movementCollisionDistance, QueryTriggerInteraction.Ignore);
+        foreach (RaycastHit hit in hits)
+        {
+            if (!hit.rigidbody || hit.rigidbody.isKinematic)
+            {
+                Vector3 nv;
+                if (bVertical)
+                    nv = new Vector3(Mathf.Sign(vh.x) * vh.x,
+                        Mathf.Sign(vh.y) * vh.y,
+                        Mathf.Sign(vh.z) * vh.z);
+                else
+                    nv = new Vector3(Mathf.Sign(vh.x) * vh.x,
+                        0f,
+                        Mathf.Sign(vh.z) * vh.z);
+                vh += Vector3.Scale(hit.normal, nv);
+            }
+        }
+
+        return vh;
+    }
+
     public override void EnableController(bool enable)
     {
         base.EnableController(enable);
@@ -129,6 +171,8 @@ public class PlayerController : CharacterController
         cameraController.cam.depth = enable ? 1 : -1;
         cameraController.cam.enabled = enable;
         cameraController.cam.gameObject.GetComponent<AudioListener>().enabled = enable;
+        inputVelocity = Vector3.zero;
+        rb.velocity = Vector3.zero;
     }
 }
 

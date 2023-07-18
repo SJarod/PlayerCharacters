@@ -35,9 +35,6 @@ public abstract class CharacterController : MonoBehaviour
     protected float groundCheckDistance = 0.1f;
 
     [SerializeField]
-    protected float movementCollisionDistance = 0.3f;
-
-    [SerializeField]
     protected float airDragCoefficient = 0.2f;
     [SerializeField]
     protected float jumpResistance = 49f;
