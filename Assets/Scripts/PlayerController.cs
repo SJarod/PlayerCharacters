@@ -39,14 +39,13 @@ public class PlayerController : CharacterController
 
         // fix horizontal velocity (collision)
         RaycastHit hit;
-        if (rb.SweepTest(rb.velocity, out hit, movementCollisionDistance) &&
+        if (rb.SweepTest(vh, out hit, movementCollisionDistance) &&
             (!hit.rigidbody || hit.rigidbody.isKinematic))
         {
-            Vector3 hn = new Vector3(hit.normal.x, 0f, hit.normal.z);
-            Vector3 nv = new Vector3(Mathf.Sign(rb.velocity.x) * rb.velocity.x,
+            Vector3 nv = new Vector3(Mathf.Sign(vh.x) * vh.x,
                 0f,
-                Mathf.Sign(rb.velocity.z) * rb.velocity.z);
-            rb.velocity += Vector3.Scale(hn.normalized, nv);
+                Mathf.Sign(vh.z) * vh.z);
+            vh += Vector3.Scale(hit.normal, nv);
         }
 
         if (bUsePlatformerPhysics)
