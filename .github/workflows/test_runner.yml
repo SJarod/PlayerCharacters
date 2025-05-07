@@ -17,7 +17,14 @@ jobs:
     steps:
     - run: |
         echo "game-ci unity test runner"
+        echo "==============================================="
         ls -la
+        echo "==============================================="
+        ls -la ..
+        echo "==============================================="
+        ls -la ~
+
+        
         git checkout origin/master
     - uses: game-ci/unity-test-runner@v4
       env:
