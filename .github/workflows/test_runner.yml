@@ -25,9 +25,6 @@ jobs:
         ls -la ~
         echo "==============================================="
         pwd
-
-        
-        git checkout origin/master
     - uses: actions/checkout@v4
     - run: |
         echo "==============================================="
