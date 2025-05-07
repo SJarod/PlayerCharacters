@@ -1,3 +1,5 @@
+name: Game CI Test Runner
+
 on:
   push:
     branches:
@@ -12,10 +14,12 @@ jobs:
     defaults:
       run:
         shell: bash
-    name: Test Runner
+    name: Game CI's Test Runner
     runs-on: windows-latest
+    
     steps:
     - uses: actions/checkout@v4
+    
     - uses: game-ci/unity-test-runner@v4
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
