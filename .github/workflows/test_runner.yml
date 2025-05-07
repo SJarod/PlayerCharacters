@@ -13,6 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - run: echo "game-ci unity test runner"
+    - run: git checkout origin/master
     - uses: game-ci/unity-test-runner@v4
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
