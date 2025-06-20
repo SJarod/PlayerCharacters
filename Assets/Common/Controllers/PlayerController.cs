@@ -147,11 +147,22 @@ public class PlayerController : CharacterController
         }
         else if (bRotateTowardsCamera)
         {
+            // TODO : smooth
             transform.rotation = Quaternion.LookRotation(cameraController.cameraForward);
         }
         else if (bRotateTowardsMouse)
         {
-            // TODO
+            Vector3 playerScreenPosition = cameraController.cam.WorldToScreenPoint(transform.position);
+            playerScreenPosition.z = 0;
+            Vector3 mouseScreenPosition = Input.mousePosition;
+            mouseScreenPosition.z = 0;
+            Vector3 dir = mouseScreenPosition - playerScreenPosition;
+            dir.Normalize();
+            dir.z = dir.y;
+            dir.y = 0f;
+
+            transform.rotation = Quaternion.LookRotation(dir);
+
         }
         else if (bRotateWithAxis)
         {
