@@ -47,7 +47,7 @@ public abstract class CharacterController : MonoBehaviour
 
     [SerializeField]
     protected float jumpMercy = 0.1f;
-    protected bool bJumpQuerry = false;
+    protected bool bJumpQuery = false;
 
     [SerializeField]
     protected float coyoteTime = 0.1f;
@@ -90,7 +90,7 @@ public abstract class CharacterController : MonoBehaviour
     protected IEnumerator JumpMercy()
     {
         yield return new WaitForSeconds(jumpMercy);
-        bJumpQuerry = false;
+        bJumpQuery = false;
     }
 
     protected abstract void JumpHandle();

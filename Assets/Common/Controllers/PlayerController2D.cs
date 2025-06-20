@@ -72,15 +72,15 @@ public class PlayerController2D : CharacterController
 
         if (Input.GetButtonDown(jumpButton))
         {
-            bJumpQuerry = true;
+            bJumpQuery = true;
             StartCoroutine(JumpMercy());
         }
 
-        if (bJumpQuerry && (bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded))
+        if (bJumpQuery && (bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded))
         {
             rb.velocity -= Vector2.Scale(Vector2.up, rb.velocity);
             rb.AddForce(Vector2.up * jumpForce * (bUseRigidbodyMass ? rb.mass : 1f), ForceMode2D.Impulse);
-            bJumpQuerry = false;
+            bJumpQuery = false;
         }
     }
 }

@@ -56,9 +56,9 @@ public class PlayerController : CharacterController
         float vy = rb.velocity.y;
 
         if (inputVelocity.sqrMagnitude > 0f)
-            vh += inputVelocity * acceleration * drag * Time.fixedDeltaTime;
+            vh += acceleration * drag * Time.fixedDeltaTime * inputVelocity;
         else
-            vh -= vh * decay * drag * Time.fixedDeltaTime;
+            vh -= decay * drag * Time.fixedDeltaTime * vh;
         vh = Vector3.ClampMagnitude(new Vector3(vh.x, 0f, vh.z), maxMovementSpeed);
 
 
@@ -107,24 +107,35 @@ public class PlayerController : CharacterController
 
         if (Input.GetButtonDown(jumpButton))
         {
-            bJumpQuerry = true;
+            bJumpQuery = true;
             StartCoroutine(JumpMercy());
         }
 
-        if (bJumpQuerry && (bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded))
+        if (bJumpQuery && (bUsePlatformerPhysics ? coyoteTimeCounter > 0f : bIsGrounded))
         {
             rb.velocity -= Vector3.Scale(Vector3.up, rb.velocity);
             rb.AddForce(Vector3.up * jumpForce, bUseRigidbodyMass ? ForceMode.Impulse : ForceMode.VelocityChange);
-            bJumpQuerry = false;
+            bJumpQuery = false;
         }
     }
 
     private float rVelocity = 0f;
+
+    [SerializeField]
+    private bool bLockRotation = false;
+    [SerializeField]
+    private bool bRotateTowardsMouse = false;
+    [SerializeField]
+    private bool bRotateWithAxis = false;
+
     protected override void HorizontalMovementHandle()
     {
         inputVelocity = cameraController.cameraRight * Input.GetAxisRaw(horizontalAxis) +
             cameraController.cameraForward * Input.GetAxisRaw(verticalAxis);
         inputVelocity.Normalize();
+
+        if (bLockRotation)
+            return;
 
         if (bRotateTowardsMovement && inputVelocity.sqrMagnitude > 0f)
         {
@@ -137,6 +148,14 @@ public class PlayerController : CharacterController
         else if (bRotateTowardsCamera)
         {
             transform.rotation = Quaternion.LookRotation(cameraController.cameraForward);
+        }
+        else if (bRotateTowardsMouse)
+        {
+            // TODO
+        }
+        else if (bRotateWithAxis)
+        {
+            // TODO 
         }
     }
 
